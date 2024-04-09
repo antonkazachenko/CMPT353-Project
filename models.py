@@ -4,7 +4,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score
 
-data = pd.read_csv('C:/Users/kiril/Desktop/CMPT/353/final project/CMPT353-Project/clean_data.csv')
+data = pd.read_csv('clean_data.csv')
 
 # Split the data into features and target variable
 X = data.drop('isFraud', axis=1)
