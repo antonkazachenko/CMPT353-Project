@@ -1,8 +1,10 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, StackingClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
-import xgboost as xgb
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 data = pd.read_csv('clean_data.csv')
 
@@ -32,6 +34,7 @@ rf_model = RandomForestClassifier(min_samples_leaf=3,
 
 rf_model.fit(X_train, y_train)
 rf_predictions = rf_model.predict(X_test)
+
 print("\nRandom Forest Classifier Results:")
 print(classification_report(y_test, rf_predictions, zero_division=0))
 print("Accuracy:", accuracy_score(y_test, rf_predictions))
@@ -40,3 +43,25 @@ print("Accuracy:", accuracy_score(y_test, rf_predictions))
 # print("Random Forest Classifier Results with Best Parameters:")
 # print(classification_report(y_test, best_rf_predictions, zero_division=0))
 # print("Accuracy:", accuracy_score(y_test, best_rf_predictions))
+
+base_models = [
+    ('rf', RandomForestClassifier(min_samples_leaf=3, bootstrap=False, min_samples_split=5, class_weight='balanced', random_state=42)),
+    # Add other models here as needed
+]
+
+# Define meta-learner model
+meta_model = LogisticRegression()
+
+# Define the stacking ensemble
+stack_model = StackingClassifier(estimators=base_models, final_estimator=meta_model, cv=5)
+
+# Train the stacking ensemble
+stack_model.fit(X_train, y_train)
+
+# Make predictions
+stack_predictions = stack_model.predict(X_test)
+
+# Evaluate the model
+print("\nStacking Ensemble Model Results:")
+print(classification_report(y_test, stack_predictions, zero_division=0))
+print("Accuracy:", accuracy_score(y_test, stack_predictions))
