@@ -31,14 +31,16 @@ rf_model = RandomForestClassifier(min_samples_leaf=3,
                                   class_weight='balanced',
                                   random_state=42)
 
-random_search = RandomizedSearchCV(estimator=rf_model,
-                                    param_distributions=param_grid,
-                                    n_iter=5,
-                                    cv=3,
-                                    verbose=2,
-                                    random_state=42,
-                                    n_jobs=-1,
-                                    scoring='f1')
+random_search = RandomizedSearchCV(
+    estimator=rf_model,
+    param_distributions=param_grid,
+    n_iter=5,
+    cv=3,
+    verbose=2,
+    random_state=42,
+    n_jobs=-1,
+    scoring='f1'
+)
 
 random_search.fit(X_train, y_train)
 
@@ -46,15 +48,15 @@ random_search.fit(X_train, y_train)
 best_rf_model = random_search.best_estimator_
 
 # Predictions using the best found parameters
-rf_predictions = best_rf_model.predict(X_test)
+best_rf_predictions = best_rf_model.predict(X_test)
 
 rf_model.fit(X_train, y_train)
-rf_predictions = rf_model.predict(X_test)
+baseline_rf_predictions = rf_model.predict(X_test)
 
 print("\nRandom Forest Classifier Results:")
-print(classification_report(y_test, rf_predictions, zero_division=0))
-print("Accuracy:", accuracy_score(y_test, rf_predictions))
+print(classification_report(y_test, baseline_rf_predictions, zero_division=0))
+print("Accuracy:", accuracy_score(y_test, baseline_rf_predictions))
 
 print("\nRandom Forest Classifier Results after Hyperparameter Tuning:")
-print(classification_report(y_test, rf_predictions, zero_division=0))
-print("Accuracy:", accuracy_score(y_test, rf_predictions))
+print(classification_report(y_test, best_rf_predictions, zero_division=0))
+print("Accuracy:", accuracy_score(y_test, best_rf_predictions))
