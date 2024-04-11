@@ -3,7 +3,7 @@
 #
 
 # Overview
-
+The project aimed to develop a fraud detection system through a systematic approach which included data exploration, preprocessing, and model selection. Initially, thorough exploratory analysis was conducted, including the removal of duplicates and outliers, and the creation of new meaningful features. Following this, the dataset was split into train and test sets, ensuring a balanced representation of fraudulent transactions. Several classification models were then implemented and evaluated based on metrics such as F1 score, with Random Forest being the most effective in detecting fraud. Additionally, boosting algorithms were considered for potential performance enhancement. Overall, the project successfully addressed the challenge of fraud detection by employing a comprehensive methodology spanning from data exploration to model selection and evaluation.
 # Required Libraries & Commands
 
 This project relies on several external Python libraries. To ensure smooth operation and compatibility, please ensure that you have the following libraries installed. This project is tested with Python 3.8 and above.
